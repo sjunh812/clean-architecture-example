@@ -1,5 +1,6 @@
 package org.sjhstudio.cleanarchitectureexample.di
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,12 +11,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+abstract class RepositoryModule {
 
     @Singleton
-    @Provides
-    fun getGithubRepository(githubRepository: GithubRepositoryImpl): GithubRepository {
-        return githubRepository
-    }
+    @Binds
+    abstract fun bindsGithubRepository(githubRepository: GithubRepositoryImpl): GithubRepository
 
 }

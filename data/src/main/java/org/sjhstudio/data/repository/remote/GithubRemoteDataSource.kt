@@ -8,7 +8,7 @@ interface GithubRemoteDataSource {
     suspend fun getRepo(owner: String): List<GithubRepoResponse>
 }
 
-class GithubRemoteSourceImpl @Inject constructor(
+class GithubRemoteDataSourceImpl @Inject constructor(
     private val githubReposApi: GithubReposApi
 ): GithubRemoteDataSource {
 

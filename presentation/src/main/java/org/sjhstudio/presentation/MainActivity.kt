@@ -1,7 +1,9 @@
 package org.sjhstudio.presentation
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.sjhstudio.presentation.base.BaseActivity
 import org.sjhstudio.presentation.databinding.ActivityMainBinding
@@ -19,11 +21,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun initUi() {
         with(binding) {
-            rv.adapter = GithubAdapter()
+            rv.apply {
+                adapter = GithubAdapter()
+                layoutManager = LinearLayoutManager(this@MainActivity)
+            }
             submitBtn.setOnClickListener {
                 val owner = ownerEt.text.toString()
-                viewModel.getGithubRepos(owner)
+                viewModel.apply {
+                    getGithubRepos(owner)
+                    handleLoading(true)
+                }
             }
+        }
+    }
+
+    private fun setProg(visible: Boolean) {
+        with(binding.prog) {
+            visibility = if(visible) View.VISIBLE else View.GONE
         }
     }
 
@@ -31,6 +45,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         with(viewModel) {
             githubRepos.observe(this@MainActivity) {
                 (binding.rv.adapter as GithubAdapter).setItems(it)
+            }
+            loading.observe(this@MainActivity) {
+                if(it) setProg(true)
+                else setProg(false)
             }
         }
     }

@@ -6,24 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sjhstudio.domain.model.GithubRepo
 import org.sjhstudio.presentation.databinding.ItemGithubRepoBinding
 
-class GithubAdapter: RecyclerView.Adapter<GithubAdapter.GithubViewHolder>() {
+class GithubAdapter: RecyclerView.Adapter<GithubViewHolder>() {
 
     private val items = mutableListOf<GithubRepo>()
-
-    inner class GithubViewHolder(
-        private val binding: ItemGithubRepoBinding
-    ): RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(repo: GithubRepo) {
-            binding.repo = repo
-        }
-
-    }
 
     fun setItems(items: List<GithubRepo>) {
         this.items.clear()
         this.items.addAll(items)
-
+        println("xxx items size:${items.size}")
         notifyDataSetChanged()
     }
 
@@ -39,6 +29,17 @@ class GithubAdapter: RecyclerView.Adapter<GithubAdapter.GithubViewHolder>() {
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+}
+
+class GithubViewHolder(
+    private val binding: ItemGithubRepoBinding
+): RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(repo: GithubRepo) {
+        binding.repo = repo
+        println("xxx name:${repo.name}, url:${repo.url}")
     }
 
 }
